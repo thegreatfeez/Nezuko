@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Nezuko Trading Platform - Onboarding</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        .step-active {
+            background: white;
+            color: #6366f1;
+        }
+        .step-completed {
+            background: rgba(255, 255, 255, 0.3);
+            color: white;
+        }
+        .step-inactive {
+            background: rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.7);
+        }
+        .mobile-step-indicator {
+            display: none;
+        }
+        @media (max-width: 1024px) {
+            .desktop-sidebar {
+                display: none;
+            }
+            .mobile-step-indicator {
+                display: block;
+            }
+        }
+    </style>
+</head>
+<body class="bg-gray-100 min-h-screen">
+    <div class="mobile-step-indicator bg-gradient-to-r from-indigo-600 to-purple-700 p-4">
+        <div class="flex items-center justify-between text-white">
+            <div class="flex items-center space-x-2">
+                <i class="fas fa-coins text-xl"></i>
+                <span class="font-semibold">Nezuko</span>
+            </div>
+            <div class="text-sm">
+                <span id="mobile-step-counter">Step 1 of 4</span>
+            </div>
+        </div>
+        <div class="mt-3">
+            <div class="w-full bg-white bg-opacity-20 rounded-full h-2">
+                <div id="mobile-progress" class="bg-white h-2 rounded-full transition-all duration-300" style="width: 25%"></div>
+            </div>
+        </div>
+    </div>
+
+    <div class="flex min-h-screen">
+        <div class="desktop-sidebar w-1/3 bg-gradient-to-br from-indigo-600 to-purple-700 relative overflow-hidden">
+            <div class="absolute bottom-0 left-0 w-40 h-40 bg-orange-400 rounded-full opacity-80 transform translate-y-1/2 -translate-x-1/2"></div>
+            <div class="absolute bottom-0 right-0 w-32 h-32 bg-pink-400 rounded-full opacity-80 transform translate-y-1/3 translate-x-1/3"></div>
+            <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2">
+                <i class="fas fa-coins text-6xl text-white opacity-30"></i>
+            </div>
+            
+            <!-- Steps -->
+            <div class="relative z-10 p-8 space-y-6">
+                <!-- Step 1 -->
+                <div class="flex items-center space-x-4" id="desktop-step-1">
+                    <div class="w-12 h-12 rounded-full step-active flex items-center justify-center font-semibold text-lg">
+                        <i class="fas fa-user"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-white opacity-70 uppercase tracking-wider">STEP 1</div>
+                        <div class="text-white font-semibold">PERSONAL INFO</div>
+                    </div>
+                </div>
+                
+                <!-- Step 2 -->
+                <div class="flex items-center space-x-4" id="desktop-step-2">
+                    <div class="w-12 h-12 rounded-full step-inactive flex items-center justify-center font-semibold text-lg">
+                        <i class="fas fa-chart-line"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-white opacity-70 uppercase tracking-wider">STEP 2</div>
+                        <div class="text-white font-semibold opacity-70">TRADING EXPERIENCE</div>
+                    </div>
+                </div>
+                
+                <!-- Step 3 -->
+                <div class="flex items-center space-x-4" id="desktop-step-3">
+                    <div class="w-12 h-12 rounded-full step-inactive flex items-center justify-center font-semibold text-lg">
+                        <i class="fas fa-shield-alt"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-white opacity-70 uppercase tracking-wider">STEP 3</div>
+                        <div class="text-white font-semibold opacity-70">SECURITY SETUP</div>
+                    </div>
+                </div>
+                
+                <!-- Step 4 -->
+                <div class="flex items-center space-x-4" id="desktop-step-4">
+                    <div class="w-12 h-12 rounded-full step-inactive flex items-center justify-center font-semibold text-lg">
+                        <i class="fas fa-credit-card"></i>
+                    </div>
+                    <div>
+                        <div class="text-xs text-white opacity-70 uppercase tracking-wider">STEP 4</div>
+                        <div class="text-white font-semibold opacity-70">ACCOUNT SUMMARY</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Main content -->
+        <div class="flex-1 p-4 sm:p-6 lg:p-12">
+            <!-- Step 1: Personal Info -->
+            <div id="step-1" class="step-content">
+                <div class="max-w-2xl mx-auto">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Personal Information</h1>
+                    <p class="text-gray-600 mb-6 sm:mb-8">Please provide your personal details for KYC verification.</p>
+                    
+                    <div class="space-y-4 sm:space-y-6">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-user mr-2"></i>Full Name
+                            </label>
+                            <input type="text" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none" placeholder="John Doe">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-envelope mr-2"></i>Email Address
+                            </label>
+                            <input type="email" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none" placeholder="john@example.com">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-phone mr-2"></i>Phone Number
+                            </label>
+                            <input type="tel" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none" placeholder="+1 234 567 890">
+                            <p class="text-sm text-red-500 mt-1">This field is required</p>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-calendar mr-2"></i>Date of Birth
+                            </label>
+                            <input type="date" class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-globe mr-2"></i>Country of Residence
+                            </label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                                <option>Select your country</option>
+                                <option>United States</option>
+                                <option>United Kingdom</option>
+                                <option>Canada</option>
+                                <option>Australia</option>
+                                <option>Germany</option>
+                                <option>Other</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex justify-end mt-8 sm:mt-12">
+                        <button onclick="nextStep()" class="bg-slate-800 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-slate-900 transition-colors">
+                            Next Step <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 2: Trading Experience -->
+            <div id="step-2" class="step-content hidden">
+                <div class="max-w-2xl mx-auto">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Trading Experience</h1>
+                    <p class="text-gray-600 mb-6 sm:mb-8">Help us understand your trading background and preferences.</p>
+                    
+                    <div class="space-y-6 sm:space-y-8">
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-4">Trading Experience Level</label>
+                            <div class="grid grid-cols-1 sm:grid-cols-3 gap-4">
+                                <div class="border-2 border-orange-200 rounded-lg p-4 cursor-pointer hover:border-orange-400 transition-colors">
+                                    <div class="w-10 h-10 bg-orange-100 rounded-full flex items-center justify-center mb-3">
+                                        <i class="fas fa-seedling text-orange-600"></i>
+                                    </div>
+                                    <h3 class="font-semibold text-gray-900">Beginner</h3>
+                                    <p class="text-sm text-gray-600">New to trading</p>
+                                </div>
+                                
+                                <div class="border-2 border-pink-200 rounded-lg p-4 cursor-pointer hover:border-pink-400 transition-colors bg-pink-50">
+                                    <div class="w-10 h-10 bg-pink-100 rounded-full flex items-center justify-center mb-3">
+                                        <i class="fas fa-user-graduate text-pink-600"></i>
+                                    </div>
+                                    <h3 class="font-semibold text-gray-900">Intermediate</h3>
+                                    <p class="text-sm text-gray-600">Some experience</p>
+                                </div>
+                                
+                                <div class="border-2 border-blue-200 rounded-lg p-4 cursor-pointer hover:border-blue-400 transition-colors">
+                                    <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center mb-3">
+                                        <i class="fas fa-crown text-blue-600"></i>
+                                    </div>
+                                    <h3 class="font-semibold text-gray-900">Advanced</h3>
+                                    <p class="text-sm text-gray-600">Professional trader</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-4">
+                                <i class="fas fa-chart-bar mr-2"></i>Risk Tolerance
+                            </label>
+                            <div class="space-y-3">
+                                <label class="flex items-center">
+                                    <input type="radio" name="risk" class="text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                    <span class="ml-3 text-gray-700">Conservative - I prefer stable investments with minimal risk</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="risk" class="text-indigo-600 focus:ring-indigo-500 border-gray-300" checked>
+                                    <span class="ml-3 text-gray-700">Moderate - I'm comfortable with some risk for better returns</span>
+                                </label>
+                                <label class="flex items-center">
+                                    <input type="radio" name="risk" class="text-indigo-600 focus:ring-indigo-500 border-gray-300">
+                                    <span class="ml-3 text-gray-700">Aggressive - I'm willing to take high risks for high rewards</span>
+                                </label>
+                            </div>
+                        </div>
+                        
+                        <div>
+                            <label class="block text-sm font-medium text-gray-700 mb-2">
+                                <i class="fas fa-dollar-sign mr-2"></i>Initial Investment Amount (USD)
+                            </label>
+                            <select class="w-full px-4 py-3 border border-gray-300 rounded-lg focus:ring-2 focus:ring-indigo-500 focus:border-indigo-500 outline-none">
+                                <option>Select amount range</option>
+                                <option>$100 - $1,000</option>
+                                <option>$1,000 - $5,000</option>
+                                <option>$5,000 - $25,000</option>
+                                <option>$25,000 - $100,000</option>
+                                <option>$100,000+</option>
+                            </select>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row justify-between mt-8 sm:mt-12 space-y-4 sm:space-y-0">
+                        <button onclick="prevStep()" class="text-gray-600 px-6 py-3 font-semibold hover:text-gray-800 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i>Go Back
+                        </button>
+                        <button onclick="nextStep()" class="bg-slate-800 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-slate-900 transition-colors">
+                            Next Step <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 3: Security Setup -->
+            <div id="step-3" class="step-content hidden">
+                <div class="max-w-2xl mx-auto">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Security Setup</h1>
+                    <p class="text-gray-600 mb-6 sm:mb-8">Secure your account with advanced security features.</p>
+                    
+                    <div class="space-y-6 sm:space-y-8">
+                        <div class="bg-yellow-50 border border-yellow-200 rounded-lg p-4">
+                            <div class="flex">
+                                <i class="fas fa-exclamation-triangle text-yellow-600 mt-0.5"></i>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-yellow-800">Security Notice</h3>
+                                    <p class="text-sm text-yellow-700 mt-1">Enable all security features to protect your crypto assets.</p>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="space-y-4 sm:space-y-6">
+                            <div class="border border-gray-200 rounded-lg p-4 sm:p-6">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-10 h-10 bg-green-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-mobile-alt text-green-600"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Two-Factor Authentication</h3>
+                                            <p class="text-sm text-gray-600">Add an extra layer of security to your account</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" checked>
+                                        <span class="ml-2 text-sm text-green-600 font-medium">+$1/mo</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4 sm:p-6">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-10 h-10 bg-blue-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-usb text-blue-600"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Hardware Wallet Integration</h3>
+                                            <p class="text-sm text-gray-600">Connect your Ledger or Trezor wallet</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500" checked>
+                                        <span class="ml-2 text-sm text-green-600 font-medium">+$5/mo</span>
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="border border-gray-200 rounded-lg p-4 sm:p-6">
+                                <div class="flex flex-col sm:flex-row sm:items-center justify-between space-y-4 sm:space-y-0">
+                                    <div class="flex items-center space-x-4">
+                                        <div class="w-10 h-10 bg-purple-100 rounded-full flex items-center justify-center">
+                                            <i class="fas fa-analytics text-purple-600"></i>
+                                        </div>
+                                        <div>
+                                            <h3 class="font-semibold text-gray-900">Advanced Portfolio Analytics</h3>
+                                            <p class="text-sm text-gray-600">Professional trading tools and insights</p>
+                                        </div>
+                                    </div>
+                                    <div class="flex items-center">
+                                        <input type="checkbox" class="w-5 h-5 text-indigo-600 border-gray-300 rounded focus:ring-indigo-500">
+                                        <span class="ml-2 text-sm text-green-600 font-medium">+$15/mo</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row justify-between mt-8 sm:mt-12 space-y-4 sm:space-y-0">
+                        <button onclick="prevStep()" class="text-gray-600 px-6 py-3 font-semibold hover:text-gray-800 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i>Go Back
+                        </button>
+                        <button onclick="nextStep()" class="bg-slate-800 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-slate-900 transition-colors">
+                            Next Step <i class="fas fa-arrow-right ml-2"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Step 4: Account Summary -->
+            <div id="step-4" class="step-content hidden">
+                <div class="max-w-2xl mx-auto">
+                    <h1 class="text-2xl sm:text-3xl font-bold text-gray-900 mb-2">Account Summary</h1>
+                    <p class="text-gray-600 mb-6 sm:mb-8">Review your selections and complete your registration.</p>
+                    
+                    <div class="space-y-6">
+                        <div class="bg-white border border-gray-200 rounded-lg p-4 sm:p-6">
+                            <div class="flex flex-col sm:flex-row justify-between items-start sm:items-center mb-4 space-y-2 sm:space-y-0">
+                                <h3 class="font-semibold text-gray-900">
+                                    <i class="fas fa-star mr-2"></i>Intermediate Plan (Monthly)
+                                </h3>
+                                <button class="text-indigo-600 text-sm font-medium hover:text-indigo-800 underline">
+                                    Change
+                                </button>
+                            </div>
+                            <div class="text-right text-2xl font-bold text-gray-900">$25/mo</div>
+                        </div>
+                        
+                        <div class="space-y-3">
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">
+                                    <i class="fas fa-mobile-alt mr-2"></i>Two-Factor Authentication
+                                </span>
+                                <span class="font-medium">+$1/mo</span>
+                            </div>
+                            <div class="flex justify-between text-sm">
+                                <span class="text-gray-600">
+                                    <i class="fas fa-usb mr-2"></i>Hardware Wallet Integration
+                                </span>
+                                <span class="font-medium">+$5/mo</span>
+                            </div>
+                        </div>
+                        
+                        <hr class="border-gray-200">
+                        
+                        <div class="flex justify-between items-center">
+                            <span class="text-gray-900 font-medium">Total (per month)</span>
+                            <span class="text-2xl font-bold text-indigo-600">$31/mo</span>
+                        </div>
+                        
+                        <div class="bg-blue-50 border border-blue-200 rounded-lg p-4 mt-6">
+                            <div class="flex">
+                                <i class="fas fa-info-circle text-blue-600 mt-0.5"></i>
+                                <div class="ml-3">
+                                    <h3 class="text-sm font-medium text-blue-800">Ready to Start Trading</h3>
+                                    <p class="text-sm text-blue-700 mt-1">Your account will be activated immediately after confirmation.</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="flex flex-col sm:flex-row justify-between mt-8 sm:mt-12 space-y-4 sm:space-y-0">
+                        <button onclick="prevStep()" class="text-gray-600 px-6 py-3 font-semibold hover:text-gray-800 transition-colors">
+                            <i class="fas fa-arrow-left mr-2"></i>Go Back
+                        </button>
+                        <button class="bg-indigo-600 text-white px-6 sm:px-8 py-3 rounded-lg font-semibold hover:bg-indigo-700 transition-colors">
+                            <i class="fas fa-rocket mr-2"></i>Start Trading
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="index.js">
+    </script>
+</body>
+</html>
