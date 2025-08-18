@@ -5,11 +5,91 @@ const step4 = document.getElementById('step-4');
 const beginerLevel = document.getElementById('beginer')
 const intermidiateLevel = document.getElementById('intermidiate')
 const advancedLevel = document.getElementById('advanced')
+const twoFA = document.getElementById('2FA')
+const coldWallet = document.getElementById('cold-wallet')
+const advancedPortfolio = document.getElementById('analytics')
+const premiumPrice = document.getElementById('premium-price')
+
 
 
 
 const arraysOfSteps = [step1, step2, step3, step4];
 const tradingExperience = [beginerLevel, intermidiateLevel,advancedLevel];
+const securitySelected =[twoFA,coldWallet,advancedPortfolio]
+
+const securityFeatures = [
+  {
+    id: "2FA",
+    name: "Two-Factor Authentication",
+    price: 1,
+    icon: "fas fa-mobile-alt"
+  },
+
+  {
+    id: "cold-wallet",
+    name: "Hardware Wallet Integration",
+    price: 5,
+    icon: "fas fa-usb"
+  },
+
+  {
+    id: "analytics",
+    name: "Advanced Portfolio Analytics",
+    price: 15,
+    icon: "fas fa-analytics"
+  }
+];
+
+
+const planPrice = [
+  { name: "Premium Basic", price: 7, icon: "fas fa-leaf" },
+  { name: "Premium", price: 10, icon: "fas fa-gem" },
+  { name: "Premium Plus", price: 15, icon: "fas fa-crown" }
+];
+let currentPlanIndex = 0; 
+
+function renderPlan(index) { 
+  const plan = planPrice[index];
+
+  document.getElementById("plan-info").innerHTML = `
+    <h3 class="font-semibold text-gray-900 flex items-center">
+      <i class="${plan.icon} mr-2 text-indigo-600"></i>${plan.name} (Monthly)
+    </h3>
+    <button id="change-plan" class="text-indigo-600 text-sm font-medium hover:text-indigo-800 underline">
+      Change
+    </button>
+  `;
+  
+  document.getElementById("premium-price").textContent = plan.price;
+
+  document.getElementById('change-plan').addEventListener('click', function(){
+  currentPlanIndex = (currentPlanIndex + 1) % planPrice.length;
+  renderPlan(currentPlanIndex)
+  })
+
+
+ document.getElementById("total-price").innerHTML = `${plan.price}`
+
+}
+
+
+
+renderPlan(currentPlanIndex);
+
+
+securitySelected.forEach(security => {
+  security.addEventListener("change", function(e){
+    const selectedFeature = securityFeatures.find(
+      feature => feature.id === e.target.closest("div[id]").id);
+
+      if(e.target.checked && selectedFeature){
+    console.log("Selected:", selectedFeature.id, selectedFeature.name, `+$${selectedFeature.price}/mo`)
+  }
+  });
+
+  
+});
+
 
 
 const highlightMap = {
@@ -17,6 +97,7 @@ const highlightMap = {
   intermidiate: "bg-pink-400",
   advanced: "bg-blue-400"
 };
+ 
 
 tradingExperience.forEach(level => {
   level.addEventListener("click", function (e) {
@@ -109,7 +190,7 @@ function updateMobileProgress(stepIndex) {
 }
 
 function nextStep() {
-  if (validators[count] && !validators[count]()) {
+  if (validators[count] && validators[count]()) {
     alert("Please complete all required fields before proceeding.");
     return;
   }
