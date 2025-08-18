@@ -1,24 +1,104 @@
+import { countries } from './countries.js';
+
+
 const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
 const step3 = document.getElementById('step-3');
 const step4 = document.getElementById('step-4');
-const beginerLevel = document.getElementById('beginer')
-const intermidiateLevel = document.getElementById('intermidiate')
-const advancedLevel = document.getElementById('advanced')
-const twoFA = document.getElementById('2FA')
-const coldWallet = document.getElementById('cold-wallet')
-const advancedPortfolio = document.getElementById('analytics')
-
-const featuresSelected = document.getElementById('features-selected')
-
-
+const mainForm = document.getElementById('form');
+const tradingDashboard = document.getElementById('trading-dashboard');
 
 
 const arraysOfSteps = [step1, step2, step3, step4];
-const tradingExperience = [beginerLevel, intermidiateLevel,advancedLevel];
-const securitySelected =[twoFA,coldWallet,advancedPortfolio]
+const desktopSteps = [
+  document.getElementById('desktop-step-1'),
+  document.getElementById('desktop-step-2'),
+  document.getElementById('desktop-step-3'),
+  document.getElementById('desktop-step-4')
+];
+let count = 0;
 
-let totalMonthly = []
+
+function loadCountries() {
+  const select = document.getElementById("country");
+  
+  if (select && select.options.length <= 1) {
+    countries.forEach(country => {
+      const option = document.createElement("option");
+      option.value = country.code;
+      option.textContent = country.name;
+      select.appendChild(option);
+    });
+  }
+}
+
+function validatePersonalInfo() {
+  const fullName = document.getElementById('fullName').value.trim();
+  const email = document.getElementById('email').value.trim();
+  const phone = document.getElementById('phone').value.trim();
+  const dob = document.getElementById('dob').value.trim();
+  const country = document.getElementById('country').value.trim();
+  const username = document.getElementById('username').value.trim();
+  
+  document.getElementById('dashboard-username').textContent= username.toUpperCase()
+  const firstTwo = username.slice(0, 2).toUpperCase()
+  document.getElementById("dashboard-short").textContent = firstTwo
+
+if (!fullName || !email || !phone || !dob || !country || !username) {
+  return false;
+}
+
+ 
+  const dobYear = new Date(dob).getFullYear();
+  const currentYear = new Date().getFullYear();
+
+  if (currentYear - dobYear < 18) {
+    alert('You must be at least 18 years old to register.');
+    return false;
+  }
+  
+  return true;
+}
+
+
+const beginerLevel = document.getElementById('beginer');
+const intermidiateLevel = document.getElementById('intermidiate');
+const advancedLevel = document.getElementById('advanced');
+const tradingExperience = [beginerLevel, intermidiateLevel, advancedLevel];
+
+const highlightMap = {
+  beginer: "bg-orange-400",
+  intermidiate: "bg-pink-400",
+  advanced: "bg-blue-400"
+};
+
+tradingExperience.forEach(level => {
+  level.addEventListener("click", function (e) {
+    tradingExperience.forEach(toggle => {
+      toggle.classList.remove(...Object.values(highlightMap));
+      toggle.classList.remove('selected');
+    });
+    e.currentTarget.classList.add(highlightMap[e.currentTarget.id]);
+    e.currentTarget.classList.add('selected');
+    const levelName = e.currentTarget.querySelector("h3").textContent;
+    document.getElementById('dashboard-level').textContent = `${levelName}`
+  });
+});
+
+function validateCapital(){
+  const capitalToInvest = document.getElementById('capital').value.trim();
+  const selectedExperience = document.querySelector('#trading-experience .selected');
+  if(!capitalToInvest || !selectedExperience){
+    return false;
+  } 
+  return true;
+}
+
+
+const twoFA = document.getElementById('2FA');
+const coldWallet = document.getElementById('cold-wallet');
+const advancedPortfolio = document.getElementById('analytics');
+const securitySelected = [twoFA, coldWallet, advancedPortfolio];
 
 const securityFeatures = [
   {
@@ -27,14 +107,12 @@ const securityFeatures = [
     price: 1,
     icon: "fas fa-mobile-alt"
   },
-
   {
     id: "cold-wallet",
     name: "Hardware Wallet Integration",
     price: 5,
     icon: "fas fa-usb"
   },
-
   {
     id: "analytics",
     name: "Advanced Portfolio Analytics",
@@ -42,6 +120,38 @@ const securityFeatures = [
     icon: "fas fa-analytics"
   }
 ];
+
+const featuresSelected = document.getElementById('features-selected');
+let addOnPrice = 0;
+
+securitySelected.forEach(security => {
+  security.addEventListener("change", function(e){
+    const selectedFeature = securityFeatures.find(
+      feature => feature.id === e.target.closest("div[id]").id);
+
+    if(e.target.checked && selectedFeature){
+      addOnPrice += selectedFeature.price;
+      const div = document.createElement("div");
+      div.id = `selected-${selectedFeature.id}`;
+      div.className = "flex justify-between items-center";
+      div.innerHTML = `
+        <span><i class="${selectedFeature.icon}"></i> ${selectedFeature.name}</span>
+        <span class="text-green-600 font-medium">+$${selectedFeature.price}/mo</span>
+      `;
+      featuresSelected.appendChild(div);
+
+    } else if (!e.target.checked && selectedFeature) {
+      addOnPrice -= selectedFeature.price;
+      const toRemove = document.getElementById(`selected-${selectedFeature.id}`)
+      if(toRemove){
+        toRemove.remove()
+      }
+    }
+    
+    const currentPlan = planPrice[currentPlanIndex];
+    document.getElementById('total-price').textContent = `${currentPlan.price + addOnPrice}`;
+  });
+});
 
 
 const planPrice = [
@@ -68,110 +178,18 @@ function renderPlan(index) {
   document.getElementById('change-plan').addEventListener('click', function(){
   currentPlanIndex = (currentPlanIndex + 1) % planPrice.length;
   renderPlan(currentPlanIndex)
-  
+ 
   })
+   document.getElementById('total-price').textContent = `${plan.price + addOnPrice }`
 
 }
-console.log(totalMonthly)
 
 
-renderPlan(currentPlanIndex);
-
-
-securitySelected.forEach(security => {
-  security.addEventListener("change", function(e){
-    const selectedFeature = securityFeatures.find(
-      feature => feature.id === e.target.closest("div[id]").id);
-
-      if(e.target.checked && selectedFeature){
-      const div = document.createElement("div");
-      div.id = `selected-${selectedFeature.id}`;
-      div.className = "flex justify-between items-center";
-      div.innerHTML = `
-        <span><i class="${selectedFeature.icon}"></i> ${selectedFeature.name}</span>
-        <span class="text-green-600 font-medium">+$${selectedFeature.price}/mo</span>
-      `;
-      featuresSelected.appendChild(div);
-      totalMonthly.push(selectedFeature.price)
-
-
-  } else if (!e.target.checked && selectedFeature) {
-    const toRemove = document.getElementById(`selected-${selectedFeature.id}`)
-   if(toRemove){
-    toRemove.remove()
-   }
-  }
-  });
-});
-
-
-
-const highlightMap = {
-  beginer: "bg-orange-400",
-  intermidiate: "bg-pink-400",
-  advanced: "bg-blue-400"
-};
- 
-
-tradingExperience.forEach(level => {
-  level.addEventListener("click", function (e) {
-    tradingExperience.forEach(toggle => {
-      toggle.classList.remove(...Object.values(highlightMap));
-      toggle.classList.remove('selected');
-    });
-    e.currentTarget.classList.add(highlightMap[e.currentTarget.id]);
-    e.currentTarget.classList.add('selected');
-  });
-});
-
-
-
-
-import { countries } from './countries.js';
-
-const desktopSteps = [
-  document.getElementById('desktop-step-1'),
-  document.getElementById('desktop-step-2'),
-  document.getElementById('desktop-step-3'),
-  document.getElementById('desktop-step-4')
-];
-
-let count = 0;
-
-function validatePersonalInfo() {
-  const fullName = document.getElementById('fullName').value.trim();
-  const email = document.getElementById('email').value.trim();
-  const phone = document.getElementById('phone').value.trim();
-  const dob = document.getElementById('dob').value.trim();
-  const country = document.getElementById('country').value.trim();
-  
-if (!fullName || !email || !phone || !dob || !country) {
-  return false;
-}
-
- 
-  const dobYear = new Date(dob).getFullYear();
-  const currentYear = new Date().getFullYear();
-
-  if (currentYear - dobYear < 18) {
-    alert('You must be at least 18 years old to register.');
-    return false;
-  }
-  
-  return true;
-}
-  function validateCapital(){
-    const capitalToInvest = document.getElementById('capital').value.trim();
-    const selectedExperience = document.querySelector('#trading-experience .selected');
-    if(!capitalToInvest || !selectedExperience){
-      return false;
-    } 
-    return true;
-  }
-
-  const validators = {
+const validators = {
   0: validatePersonalInfo,
-  1: validateCapital,}
+  1: validateCapital,
+};
+
 
 function setActiveStep(index) {
   desktopSteps.forEach((step, i) => {
@@ -189,7 +207,6 @@ function setActiveStep(index) {
     }
   });
 
-
   updateMobileProgress(index);
 }
 
@@ -204,7 +221,7 @@ function updateMobileProgress(stepIndex) {
 }
 
 function nextStep() {
-  if (validators[count] && validators[count]()) {
+  if (validators[count] && !validators[count]()) {
     alert("Please complete all required fields before proceeding.");
     return;
   }
@@ -226,22 +243,17 @@ function prevStep() {
   }
 }
 
-function loadCountries() {
-  const select = document.getElementById("country");
-  
-  if (select && select.options.length <= 1) {
-    countries.forEach(country => {
-      const option = document.createElement("option");
-      option.value = country.code;
-      option.textContent = country.name;
-      select.appendChild(option);
-    });
-  }
-}
+
+document.getElementById('start-trading').addEventListener('click', () =>{
+  mainForm.classList.add('hidden')
+  tradingDashboard.classList.remove('hidden')
+})
 
 
 window.nextStep = nextStep;
 window.prevStep = prevStep;
 
+
 loadCountries();
 setActiveStep(count);
+renderPlan(currentPlanIndex);
