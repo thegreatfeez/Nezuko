@@ -33,11 +33,6 @@ This project simulates a real-world trading platform with step-by-step onboardin
 
 ---
 
-## 📸 Preview
-https://github.com/thegreatfeez/Nezuko/blob/fe26d6b0d97364baf49f2398918d7834a01a21e4/nezuko.MP4
-
----
-
 ## 📜 License
 
 This project is open-source under the **MIT License**.  
