@@ -2,7 +2,35 @@ const step1 = document.getElementById('step-1');
 const step2 = document.getElementById('step-2');
 const step3 = document.getElementById('step-3');
 const step4 = document.getElementById('step-4');
+const beginerLevel = document.getElementById('beginer')
+const intermidiateLevel = document.getElementById('intermidiate')
+const advancedLevel = document.getElementById('advanced')
+
+
+
 const arraysOfSteps = [step1, step2, step3, step4];
+const tradingExperience = [beginerLevel, intermidiateLevel,advancedLevel];
+
+
+const highlightMap = {
+  beginer: "bg-orange-400",
+  intermidiate: "bg-pink-400",
+  advanced: "bg-blue-400"
+};
+
+tradingExperience.forEach(level => {
+  level.addEventListener("click", function (e) {
+    tradingExperience.forEach(toggle => {
+      toggle.classList.remove(...Object.values(highlightMap));
+      toggle.classList.remove('selected');
+    });
+    e.currentTarget.classList.add(highlightMap[e.currentTarget.id]);
+    e.currentTarget.classList.add('selected');
+  });
+});
+
+
+
 
 import { countries } from './countries.js';
 
@@ -22,18 +50,33 @@ function validatePersonalInfo() {
   const dob = document.getElementById('dob').value.trim();
   const country = document.getElementById('country').value.trim();
   
-  if (!fullName || !email || !phone || !dob || !country) {
-    return false;
-  }
-  
+if (!fullName || !email || !phone || !dob || !country) {
+  return false;
+}
+
+ 
   const dobYear = new Date(dob).getFullYear();
-  if (dobYear >= 2008) {
+  const currentYear = new Date().getFullYear();
+
+  if (currentYear - dobYear < 18) {
     alert('You must be at least 18 years old to register.');
     return false;
   }
   
   return true;
 }
+  function validateCapital(){
+    const capitalToInvest = document.getElementById('capital').value.trim();
+    const selectedExperience = document.querySelector('#trading-experience .selected');
+    if(!capitalToInvest || !selectedExperience){
+      return false;
+    } 
+    return true;
+  }
+
+  const validators = {
+  0: validatePersonalInfo,
+  1: validateCapital,}
 
 function setActiveStep(index) {
   desktopSteps.forEach((step, i) => {
@@ -66,8 +109,8 @@ function updateMobileProgress(stepIndex) {
 }
 
 function nextStep() {
-  if (count === 0 && !validatePersonalInfo()) {
-    alert('Please complete all required fields before proceeding.');
+  if (validators[count] && !validators[count]()) {
+    alert("Please complete all required fields before proceeding.");
     return;
   }
   
