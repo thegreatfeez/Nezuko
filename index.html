@@ -33,6 +33,11 @@
     </style>
 </head>
 <body class="bg-gray-100 min-h-screen">
+    <div id="loading-screen" class="hidden fixed inset-0 flex flex-col items-center justify-center bg-white z-50">
+  <div class="animate-spin rounded-full h-16 w-16 border-t-4 border-indigo-600 mb-4"></div>
+  <p class="text-lg font-medium text-gray-700">Please wait, setting up your dashboard...</p>
+</div>
+
     <div class="mobile-step-indicator bg-gradient-to-r from-indigo-600 to-purple-700 p-4">
         <div class="flex items-center justify-between text-white">
             <div class="flex items-center space-x-2">
@@ -677,6 +682,7 @@
                     </div>
                 </div>
             </div>
+
     <script src="index.js" type="module"></script>
 </body>
 </html>
