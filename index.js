@@ -245,9 +245,16 @@ function prevStep() {
 
 
 document.getElementById('start-trading').addEventListener('click', () =>{
-  mainForm.classList.add('hidden')
-  tradingDashboard.classList.remove('hidden')
-})
+  mainForm.classList.add('hidden');
+  document.getElementById('loading-screen').classList.remove('hidden');
+
+  setTimeout(() => {
+    document.getElementById('loading-screen').classList.add('hidden');
+    tradingDashboard.classList.remove('hidden');
+  }, 5000); 
+});
+
+
 
 
 window.nextStep = nextStep;
