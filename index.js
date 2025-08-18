@@ -8,7 +8,8 @@ const advancedLevel = document.getElementById('advanced')
 const twoFA = document.getElementById('2FA')
 const coldWallet = document.getElementById('cold-wallet')
 const advancedPortfolio = document.getElementById('analytics')
-const premiumPrice = document.getElementById('premium-price')
+
+const featuresSelected = document.getElementById('features-selected')
 
 
 
@@ -16,6 +17,8 @@ const premiumPrice = document.getElementById('premium-price')
 const arraysOfSteps = [step1, step2, step3, step4];
 const tradingExperience = [beginerLevel, intermidiateLevel,advancedLevel];
 const securitySelected =[twoFA,coldWallet,advancedPortfolio]
+
+let totalMonthly = []
 
 const securityFeatures = [
   {
@@ -65,13 +68,11 @@ function renderPlan(index) {
   document.getElementById('change-plan').addEventListener('click', function(){
   currentPlanIndex = (currentPlanIndex + 1) % planPrice.length;
   renderPlan(currentPlanIndex)
+  
   })
 
-
- document.getElementById("total-price").innerHTML = `${plan.price}`
-
 }
-
+console.log(totalMonthly)
 
 
 renderPlan(currentPlanIndex);
@@ -83,11 +84,24 @@ securitySelected.forEach(security => {
       feature => feature.id === e.target.closest("div[id]").id);
 
       if(e.target.checked && selectedFeature){
-    console.log("Selected:", selectedFeature.id, selectedFeature.name, `+$${selectedFeature.price}/mo`)
+      const div = document.createElement("div");
+      div.id = `selected-${selectedFeature.id}`;
+      div.className = "flex justify-between items-center";
+      div.innerHTML = `
+        <span><i class="${selectedFeature.icon}"></i> ${selectedFeature.name}</span>
+        <span class="text-green-600 font-medium">+$${selectedFeature.price}/mo</span>
+      `;
+      featuresSelected.appendChild(div);
+      totalMonthly.push(selectedFeature.price)
+
+
+  } else if (!e.target.checked && selectedFeature) {
+    const toRemove = document.getElementById(`selected-${selectedFeature.id}`)
+   if(toRemove){
+    toRemove.remove()
+   }
   }
   });
-
-  
 });
 
 
